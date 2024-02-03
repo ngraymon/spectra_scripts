@@ -1,0 +1,73 @@
+autospecver
+
+Purpose: Computation of the spectrum by Fourier-transforming
+         the autocorrelation function.
+         Three spectra are generated acording to the weight functions
+         cos^n(pi*t/(2*T)) (n=0,1,2). The option -lin allows to use
+         a second set of filters. In plspec the filters of this
+         second set are enabled through the option -g3, -g4, or -g5.
+         Additionally there is the weight function exp(-(t/tau)^iexp).
+         The conversion factor from damping time to FWHM energy width
+         is 1.32 eV fs and 2.2 eV fs for iexp=1 or 2, respectively.
+         Input a zero for tau if no damping is required.
+
+Usage : autospec85 [-f -i -o -e -n -r -ph -p -q -g -t -FT -EP -Mb -ver -h -?]
+                   [emin emax unit tau iexp]
+
+Options :
+ -f FILE : The autocorrelation is read from file FILE rather than from ./auto
+           The string FILE may be a relative or full path-name.
+ -i DIR  : Take DIR as input directory.
+ -o FILE : The spectrum is written to file FILE.pl
+           rather than to ./spectrum.pl
+           The string FILE may be a relative or full path-name.
+ -e R Unit : the offset energy is set to R in units Unit; e.g. 0.3 ev
+             Note, a positive R shifts the spectrum to the right.
+ -n      : The maxima of the three spectra are normalized to 1.
+ -r      : Plot the resolution rather than the spectrum
+ -ph  ph : Use phase correction exp(i*ph*1.d-6*t^2)
+ -p I    : The no. of plot-points is I rather than 1000
+           Use "-p 2000" for final plots
+ -q I    : Same as -p.
+ -lin    : A second set of filter functions is used, namely
+           g(t) = cos^3(pi*t/(2*T) (column 2),
+           g(t) = 1 - t/T (column 3),
+           g(t) = (1-t/T)*cos(pi*t/T) + sin(pi*t/T)/pi (column 4).
+           The last two filters yield a positive semi-definite
+           Fourier-transform.
+ -g ncos : GNUplot command lines are written to the output file.
+           ncos is the exponent of the cosine damping function.
+ -t tcut : The autocorrelation function is read only up to t=tcut
+ -FT     : No multiplication with the energy prefactor. Fourier
+           transform only. (default!)
+ -EP     : Multiplication with the energy prefactor.
+ -Mb norm: Absorption spectrum in Mb. norm is ||D*Psi|| (in au)
+           where D is the Dipole moment. -Mb sets -EP.
+ -ctr    : Perform a sin-transform rather than an exp one.
+           (This is for ctrace files.)
+ -ver    : Version information about the program
+ -h      : Print this help text.
+ -?      : Print this help text.
+Following the options one may provide the arguments (separated by blank):
+           Emin, Emax, Unit, tau, iexp
+If not enough arguments are given, the user is prompted for the missing
+arguments. Use the Unit 'no' if the propagation is run with the
+keywords: 'time-not-fs','energy-not-ev'.
+When using the options -EP or -Mb one must make sure that the zero point
+of the energy is set appropriately. Use the option -e if the total energy
+differs from photon energy. 1 Mb = 10^-18 cm^2. The norm ||D*Psi|| can be
+found in the log file of the operate run.
+------------------------------------------------------------------------------
+The program computes the spectrum by Fourier transform of the autocorrelation function which is multiplied with the weight function exp(-(t/tau)iexp)*cosn(pi*t/2T), (n = 0, 1, 2). (In the output file there is one column for each n). The variables tau (real [fs]) and iexp (integer) are input arguments.
+More precisely:
+sigma(omega,n) = prefac*Integral (0, T) Re[ c(t) * exp(i*(omega -Eoffset)*t)] * exp(-(t/tau)iexp)* cosn(pi*t/2T) dt
+is the formula which is evaluated. Here c(t) is the autocorrelation function and T denotes the largest time for which c(t) is known. (T may be reduced by the option -t). The variable omega runs between Emin and Emax. The pre-factor prefac is 1/pi if -FT is set (default), or is omega/pi if -EP is set, or is 0.4279828*dipolemoment**2 if -Mb is set. In the latter case, dipolemoment is the norm of the D*Psi, where D denotes the dipole operator. This norm is printed in the MCTDH log file, when the operation D*Psi is performed by operate. The -Mb option allows to plot the absorption spectrum on absolute scale in mega barns (Mb). 1 Mb = 10-18 cm2
+
+When the option -lin is set, then the filter function cosn(pi*t/2T) (n=0,1,2) is replaced by cos3(pi*t/2T) (column 2), 1 - t/T (column 3), and (1-t/T)*cos(pi*t/T) + sin(pi*t/T)/pi (column 4). Note that the latter two filters are non-negative. A more comprehensive discussion can be found in the lecture notes Introduction to MCTDH.
+
+When one of the options -EP or -Mb is set, one must ensure, that the energy is the photon energy. It may hence be necessary to shift the energies from total ones to photon energies by using the -e option.
+
+If the option -r is set, the program computes the resolution, i.e. the spectrum of a single line. The time points are taken from the auto file. If there is no auto file and if the option -t is given, a time step of 1 fs is assumed.
+
+The pre-factor omega is omitted by default, or when the option -FT is given. In this case (and only in this case) the energy Emin (and eventually Emax) may be negative. NB: When the pre-factor is omitted (default), the spectrum is normalized to 1 au.
+Example: autospec85 -e 13.4071 ev 13 17 ev 50 2
