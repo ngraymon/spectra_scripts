@@ -1,0 +1,51 @@
+#######################################################################
+###           water IP 3-mode multi-set                            ####
+#######################################################################
+
+RUN-SECTION
+name = all propagation
+tfinal = 1000.0   tout = 0.2   tpsi= 1.0
+psi  auto=twice  steps  gridpop
+title =co2 single set
+end-run-section
+
+OPERATOR-SECTION
+oppath = .
+opname = IP
+end-operator-section
+
+SPF-BASIS-SECTION
+multi-set
+      v01      =  1, 1, 1, 1, 1, 1, 1
+      v02      =  1, 1, 1, 1, 1, 1, 1
+      v03      =  1, 1, 1, 1, 1, 1, 1
+      v04      =  1, 1, 1, 1, 1, 1, 1
+end-spf-basis-section
+
+PRIMITIVE-BASIS-SECTION
+    v01    HO     30   0.0     1.0     1.0
+    v02    HO     30   0.0     1.0     1.0
+    v03    HO     30   0.0     1.0     1.0
+    v04    HO     30   0.0     1.0     1.0
+    el     el     7
+end-primitive-basis-section
+
+INTEGRATOR-SECTION
+CMF/var = 0.5,  1.0d-05
+BS/spf  =  7 ,  1.0d-05 ,  2.5d-04
+SIL/A   =  5 ,  1.0d-05
+end-integrator-section
+
+INIT_WF-SECTION
+build
+  init_state=7
+    v01    HO     0.0   0.0     1.0     1.0
+    v02    HO     0.0   0.0     1.0     1.0
+    v03    HO     0.0   0.0     1.0     1.0
+    v04    HO     0.0   0.0     1.0     1.0
+end-build
+operate=Ex
+end-init_wf-section
+
+end-input
+

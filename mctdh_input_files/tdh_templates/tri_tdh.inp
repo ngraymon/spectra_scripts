@@ -1,0 +1,70 @@
+RUN-SECTION
+    name = all propagation
+    tfinal = 2000.0   tout = 0.2   tpsi= 1.0
+    psi  auto=twice  steps  gridpop
+    title = single set
+    end-run-section
+
+    OPERATOR-SECTION
+    oppath = .
+    opname = IP
+    end-operator-section
+
+    SPF-BASIS-SECTION
+    multi-set
+      v01      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v02      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v03      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v04      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v05      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v06      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v07      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v08      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v09      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v10      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v11      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      v12      =  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+end-spf-basis-section
+
+         PRIMITIVE-BASIS-SECTION
+    v01    HO     30   0.0     1.0     1.0
+    v02    HO     30   0.0     1.0     1.0
+    v03    HO     30   0.0     1.0     1.0
+    v04    HO     30   0.0     1.0     1.0
+    v05    HO     30   0.0     1.0     1.0
+    v06    HO     30   0.0     1.0     1.0
+    v07    HO     30   0.0     1.0     1.0
+    v08    HO     30   0.0     1.0     1.0
+    v09    HO     30   0.0     1.0     1.0
+    v10    HO     30   0.0     1.0     1.0
+    v11    HO     30   0.0     1.0     1.0
+    v12    HO     30   0.0     1.0     1.0
+    el     el     11
+end-primitive-basis-section
+
+INTEGRATOR-SECTION
+CMF/var = 0.5,  1.0d-05
+BS/spf  =  7 ,  1.0d-05 ,  2.5d-04
+SIL/A   =  5 ,  1.0d-05
+end-integrator-section
+
+INIT_WF-SECTION
+build
+  init_state=11
+    v01    HO     0.0   0.0     1.0     1.0
+    v02    HO     0.0   0.0     1.0     1.0
+    v03    HO     0.0   0.0     1.0     1.0
+    v04    HO     0.0   0.0     1.0     1.0
+    v05    HO     0.0   0.0     1.0     1.0
+    v06    HO     0.0   0.0     1.0     1.0
+    v07    HO     0.0   0.0     1.0     1.0
+    v08    HO     0.0   0.0     1.0     1.0
+    v09    HO     0.0   0.0     1.0     1.0
+    v10    HO     0.0   0.0     1.0     1.0
+    v11    HO     0.0   0.0     1.0     1.0
+    v12    HO     0.0   0.0     1.0     1.0
+end-build
+operate=Ex
+end-init_wf-section
+
+end-input
