@@ -1,3 +1,22 @@
+"""
+
+
+See Documentation at
+https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/
+https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input.html
+
+Each input *.inp file is divided into sections:
+https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#sections
+"""
+
+
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+#                                       RUN SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#runkey
+
 run_begin = "RUN-SECTION"
 run_end = "end-run-section"
 
@@ -30,6 +49,10 @@ run_section_propagation = "\n".join([
 
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
+#                                       OPERATOR SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#operkey
 
 
 operator_begin = "OPERATOR-SECTION"
@@ -44,6 +67,10 @@ operator_section = "\n".join([
 
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
+#                        SINGLE-PARTICLE-FUNCTION (SPF) BASIS SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#sbasiskey
 
 
 spf_begin = "SPF-BASIS-SECTION"
@@ -100,7 +127,10 @@ single_set_spf_basis_section = "\n".join([
 
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-
+#                                   PRIMITIVE BASIS SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#pbasiskey
 
 pbs_begin = "PRIMITIVE-BASIS-SECTION"
 pbs_end = "end-primitive-basis-section"
@@ -132,6 +162,10 @@ def generate_basic_harmonic_oscillator_primative_basis_section(n_BF, N, A):
 
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
+#                                   INTEGRATOR SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#intkey
 
 
 int_begin = "INTEGRATOR-SECTION"
@@ -220,8 +254,13 @@ propagation_integrator_section = "\n".join([
 
 # the value of eps_inv is used to regularise the inverse of the reduced density matrices. (Default: 10-8. See eq.(82) review.)
 # "energyorb eps_inv=1.0d-09",
+
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
+#                               INITAL WAVE FUNCTION SECTION
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#inwfkey
 
 int_wf_begin = "INIT_WF-SECTION"
 build_begin = "build"
@@ -262,3 +301,6 @@ def generate_basic_harmonic_oscillator_wavefunction_section(N, A):
     ])
 
     return _generate_basic_wavefunction(basic_HO_wavepacket, A)
+
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
