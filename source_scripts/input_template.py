@@ -59,16 +59,18 @@ def _generate_basic_spf_basis(spf_definitions, multi=False):
         spf_end,
     ])
 
+
 def generate_basic_single_set_spf_basis_section(n_BF, N):
     """Generate basic single set with same # of spf for all states and modes"""
-    spf_definitions  = [
+    spf_definitions = [
         f"      v{n+1:>02d}      =  {n_BF:d}" for n in range(N)
     ]
     return _generate_basic_spf_basis(spf_definitions)
 
+
 def generate_basic_multi_set_spf_basis_section(n_BF, N, A):
     """Generate basic multi set with same # of spf for all states and modes"""
-    spf_definitions  = []
+    spf_definitions = []
     for n in range(N):
         string = f"      v{n+1:>02d}      =  {n_BF:d}"
         for a in range(A-1):
@@ -96,7 +98,6 @@ single_set_spf_basis_section = "\n".join([
 ])
 
 
-
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
 
@@ -121,9 +122,10 @@ def _generate_basic_harmonic_oscillator_pbfs(pbfs_definitions, nof_electronic_st
         pbs_end,
     ])
 
+
 def generate_basic_harmonic_oscillator_primative_basis_section(n_BF, N, A):
     """Generate PBF's with same # of H.O. basis functions for all modes"""
-    pbf_definitions  = [
+    pbf_definitions = [
         f"    v{n+1:>02d}    HO     {n_BF:d}   {ho_spec:s}" for n in range(N)
     ]
     return _generate_basic_harmonic_oscillator_pbfs(pbf_definitions, A)
@@ -200,7 +202,11 @@ dav_integrator = "{dav_spec:<10} = {I:>5}, {R:>10}".format(
 )
 
 """ The integrators may only be combined in certain ways as described below!!!
-For VMF calculations, only the BS, ABM or RK5/8 integrator may be used for the differential equations. Default is ABM. For VMF calculations the integrator must carry the extension S=all (or no extension at all), i.e. there is only one integrator within the VMF scheme. For CMF calculations, the following combinations of integrators are possible: ABM/spf + SIL/A, BS/spf + SIL/A, RKx/spf + SIL/A, BS/all, ABM/all, RKx/all.
+    For VMF calculations, only the BS, ABM or RK5/8 integrator may be used for the differential equations. Default is ABM.
+    For VMF calculations the integrator must carry the extension S=all (or no extension at all),
+        (i.e. there is only one integrator within the VMF scheme).
+    For CMF calculations, the following combinations of integrators are possible:
+        ABM/spf + SIL/A, BS/spf + SIL/A, RKx/spf + SIL/A, BS/all, ABM/all, RKx/all.
 """
 
 
@@ -227,6 +233,7 @@ initial_state_spec = "   init_state={:d}"
 # this applies the dipole moment operator onto the wavefunction at every step
 operate_spec = "operate=Ex"
 
+
 # see https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#wfbuild
 def _generate_basic_wavefunction(basic_HO_wavepacket, nof_electronic_states):
     """Generate basic wavefunction with the same harmonic oscillators for each mode"""
@@ -239,6 +246,7 @@ def _generate_basic_wavefunction(basic_HO_wavepacket, nof_electronic_states):
         operate_spec,
         int_wf_end,
     ])
+
 
 def generate_basic_harmonic_oscillator_wavefunction_section(N, A):
     """Generate basic wavefunction with the same harmonic oscillators for each mode"""
