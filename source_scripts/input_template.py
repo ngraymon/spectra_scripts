@@ -270,37 +270,38 @@ int_wf_end = "end-init_wf-section"
 initial_state_spec = "   init_state={:d}"
 
 # this applies the dipole moment operator onto the wavefunction at every step
-operate_spec = "operate=Ex"
+operate_spec = "operate={0:s}"
 
 
-# see https://www.pci.uni-heidelberg.de/tc/usr/mctdh/doc/mctdh/input_docu.html#wfbuild
-def _generate_basic_wavefunction(basic_HO_wavepacket, nof_electronic_states):
-    """Generate basic wavefunction with the same harmonic oscillators for each mode"""
+def _glue_together_wavefunction_section(basic_HO_wavepacket_spec, nof_electronic_states, operator="Ex"):
+    """Glue together all the parts of a wavefunction section"""
     return "\n".join([
         int_wf_begin,
         build_begin,
         initial_state_spec.format(nof_electronic_states),
-        basic_HO_wavepacket,
+        basic_HO_wavepacket_spec,
         build_end,
-        operate_spec,
+        operate_spec.format(operator),
         int_wf_end,
     ])
 
 
-def generate_basic_harmonic_oscillator_wavefunction_section(N, A):
-    """Generate basic wavefunction with the same harmonic oscillators for each mode"""
+_HO_wavepacket_template = "\n".join([
+    "-----------------------------------------------------------",
+    "#  mode   type  center  moment.  freq.    mass",
+    "-----------------------------------------------------------",
+    "{0:s}",
+    "-----------------------------------------------------------",
+])
+_wavepacket_string = "    v{0:>02d}    HO     0.0    0.0      1.0     1.0"
 
-    basic_HO_wavepacket = "\n".join([
-        "-----------------------------------------------------------",
-        "#  mode   type  center  moment.  freq.    mass",
-        "-----------------------------------------------------------",
-        *[
-            f"    v{n+1:>02d}    HO     0.0    0.0      1.0     1.0" for n in range(N)
-        ],
-        "-----------------------------------------------------------",
-    ])
 
-    return _generate_basic_wavefunction(basic_HO_wavepacket, A)
+def generate_basic_harmonic_oscillator_wavefunction_section(N, A, operator="Ex"):
+    """Generate basic wavefunction section with the same harmonic oscillators for each mode"""
+
+    wavepackets = "\n".join([_wavepacket_string.format(n) for n in range(N)])
+    basic_HO_wavepacket_spec = _HO_wavepacket_template.format(wavepackets)
+    return _glue_together_wavefunction_section(basic_HO_wavepacket_spec, A, operator)
 
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
